@@ -1,0 +1,59 @@
+﻿<Window x:Name="LegendWin" x:Class="FortNiteApp.Legend"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FortNiteApp"
+        mc:Ignorable="d"
+        Title="Legend" Height="189" Width="784" Foreground="White" Background="#DB191919" WindowStyle="None" AllowsTransparency="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <Rectangle Grid.Column="5" Fill="#FF111111" HorizontalAlignment="Left" Height="189" VerticalAlignment="Top" Width="131"/>
+
+        <Rectangle Grid.Column="3" Fill="#FF111111" HorizontalAlignment="Left" Height="189" VerticalAlignment="Top" Width="131"/>
+
+        <Rectangle Grid.Column="1" Fill="#FF111111" HorizontalAlignment="Left" Height="189" VerticalAlignment="Top" Width="131"/>
+
+        <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="Less than 1000" VerticalAlignment="Top" Height="23" TextAlignment="Center" FontSize="14" FontFamily="Segoe UI Semilight"/>
+        <TextBlock Margin="0,96,0,0" TextWrapping="Wrap" Text="PEON" VerticalAlignment="Top" Height="50" TextAlignment="Center" FontSize="16" FontFamily="Segoe UI Semibold"/>
+        <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="1000 - 1499" VerticalAlignment="Top" Height="23" TextAlignment="Center" FontSize="14" FontFamily="Segoe UI Semilight" Grid.Column="1"/>
+        <TextBlock Margin="0,96,0,0" TextWrapping="Wrap" Text="UNCOMMON" VerticalAlignment="Top" Height="50" TextAlignment="Center" FontSize="16" Grid.Column="1" FontFamily="Segoe UI Semibold">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="13" Color="#FF5DFF38"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="1500 - 1999" VerticalAlignment="Top" Height="23" TextAlignment="Center" FontSize="14" FontFamily="Segoe UI Semilight" Grid.Column="2"/>
+        <TextBlock Margin="0,96,0,0" TextWrapping="Wrap" Text="RARE" VerticalAlignment="Top" Height="50" TextAlignment="Center" FontSize="16" Grid.Column="2" FontFamily="Segoe UI Semibold">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FF26C6FF" ShadowDepth="0" BlurRadius="10"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="2000 - 2499" VerticalAlignment="Top" Height="23" TextAlignment="Center" FontSize="14" FontFamily="Segoe UI Semilight" Grid.Column="3"/>
+        <TextBlock Margin="5,96,5,0" TextWrapping="Wrap" Text="EPIC" VerticalAlignment="Top" Height="50" TextAlignment="Center" FontSize="16" Grid.Column="3" FontFamily="Segoe UI Semibold">
+            <TextBlock.Effect>
+                <DropShadowEffect BlurRadius="13" ShadowDepth="0" Color="#FFE89EFF"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="2500 - 3000" VerticalAlignment="Top" Height="23" TextAlignment="Center" FontSize="14" FontFamily="Segoe UI Semilight" Grid.Column="4"/>
+        <TextBlock Margin="10,96,10,0" TextWrapping="Wrap" Text="LEGENDARY" VerticalAlignment="Top" Height="50" TextAlignment="Center" FontSize="16" Grid.Column="4" FontFamily="Segoe UI Semibold">
+            <TextBlock.Effect>
+                <DropShadowEffect Color="#FFFFA233" ShadowDepth="0" BlurRadius="13"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        <TextBlock Margin="0,50,0,0" TextWrapping="Wrap" Text="Higher than 3000" VerticalAlignment="Top" Height="23" TextAlignment="Center" FontSize="14" FontFamily="Segoe UI Semilight" Grid.Column="5"/>
+        <TextBlock Margin="10,96,10,0" TextWrapping="Wrap" Text="MYTHIC" VerticalAlignment="Top" Height="50" TextAlignment="Center" FontSize="16" Grid.Column="5" Foreground="White" FontFamily="Segoe UI Semibold">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="15" Color="#FFFFEC40" RenderingBias="Quality"/>
+            </TextBlock.Effect>
+        </TextBlock>
+
+    </Grid>
+</Window>
