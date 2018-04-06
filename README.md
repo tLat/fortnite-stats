@@ -4,7 +4,7 @@ A minimalistic application to display popular stats of Fortnite users. You can s
 
 ## Basic Functionality
 
-The app pulls information from the Fortnite Tracker's website and reads user data as a JSON file
+The app pulls information from the Fortnite Tracker's website and reads user data as a JSON file and displays it within the app
 
 #### Display
 
