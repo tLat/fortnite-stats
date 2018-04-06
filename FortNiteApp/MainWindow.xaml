@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FortNiteApp"
         mc:Ignorable="d"
-        Title="FortNite Stats" Height="300" Width="530" Background="#B2191919" Foreground="White" Loaded="MainWin_Loaded" WindowStyle="None" AllowsTransparency="True" MouseDown="FortNiteApp_MouseDown" ResizeMode="CanResizeWithGrip" SizeChanged="FortNiteApp_SizeChanged" MinHeight="300" MinWidth="530" BorderBrush="#FF191919" BorderThickness="1">
+        Title="FortNite Stats" Height="316" Width="570" Background="#B2191919" Foreground="White" Loaded="MainWin_Loaded" WindowStyle="None" AllowsTransparency="True" MouseDown="FortNiteApp_MouseDown" ResizeMode="CanResizeWithGrip" SizeChanged="FortNiteApp_SizeChanged" MinHeight="300" MinWidth="530" BorderBrush="#FF191919" BorderThickness="1">
     <Window.Resources>
         <Storyboard x:Key="Light">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Poof">
@@ -49,15 +49,17 @@
     <Grid>
 
 
-        <Rectangle x:Name="Poof" Fill="#FFF4F4F5" Margin="0,179,10,0" Stroke="Black" StrokeThickness="0" Opacity="0" HorizontalAlignment="Right" Width="160" Height="84" VerticalAlignment="Top">
-        </Rectangle>
+        <Rectangle x:Name="obj_back" Fill="#00000000" HorizontalAlignment="Left" Height="18" Margin="343,83,0,0" VerticalAlignment="Top" Width="18" IsMouseDirectlyOverChanged="obj_back_IsMouseDirectlyOverChanged" MouseDown="obj_back_MouseDown"/>
+
+
+        <Rectangle x:Name="Poof" Fill="#FFF4F4F5" Margin="0,179,10,0" Stroke="Black" StrokeThickness="0" Opacity="0" HorizontalAlignment="Right" Width="160" Height="84" VerticalAlignment="Top"/>
 
 
         <Rectangle x:Name="rect_boost" Fill="#990F0F0F" Margin="21,145,176,29" MouseDown="rect_boost_MouseDown"/>
 
-        <TextBox x:Name="inputName" HorizontalAlignment="Left" Height="39" Margin="20,72,0,0" TextWrapping="Wrap" Text="Enter Name" VerticalAlignment="Top" Width="195" BorderBrush="{x:Null}" Background="#FF0F0F0F" Foreground="#FF727272" Padding="15,9,0,0" GotFocus="inputName_GotFocus" KeyDown="inputName_KeyDown"/>
-        <Button x:Name="button" Content="Find" HorizontalAlignment="Left" Margin="220,72,0,0" VerticalAlignment="Top" Width="93" Height="39" BorderBrush="{x:Null}" Background="#FF0F0F0F" Foreground="White" Click="button_Click"/>
-        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="21,122,0,0" TextWrapping="Wrap" Text="Squad Stats" VerticalAlignment="Top" Width="202" Foreground="#FF979797" FontFamily="Segoe UI Light" Height="18"/>
+        <TextBox x:Name="inputName" HorizontalAlignment="Left" Height="39" Margin="20,72,0,0" TextWrapping="Wrap" Text="Enter Name" VerticalAlignment="Top" Width="175" BorderBrush="{x:Null}" Background="#FF0F0F0F" Foreground="#FF727272" Padding="15,9,0,0" GotFocus="inputName_GotFocus" KeyDown="inputName_KeyDown"/>
+        <Button x:Name="button" Content="FIND" HorizontalAlignment="Left" Margin="200,72,0,0" VerticalAlignment="Top" Width="68" Height="39" BorderBrush="{x:Null}" Background="#FF0F0F0F" Foreground="White" Click="button_Click" FontSize="11"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="21,122,0,0" TextWrapping="Wrap" Text="Squad Stats" VerticalAlignment="Top" Width="232" Foreground="#FF979797" FontFamily="Segoe UI Light" Height="18"/>
         <TextBlock x:Name="textblock_rating" HorizontalAlignment="Right" Height="34" Margin="0,145,53,0" TextWrapping="Wrap" Text="Squad Rating" VerticalAlignment="Top" Width="106"  Foreground="White" Background="{x:Null}" FontSize="18" FontFamily="Segoe UI Light"/>
         <TextBlock x:Name="text_rating_glow" HorizontalAlignment="Left" Height="74" Margin="341,172,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="141"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="48" Visibility="Hidden"/>
         <TextBlock x:Name="text_rating" Height="74" Margin="0,172,18,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="48" HorizontalAlignment="Right" Width="141"/>
@@ -92,26 +94,26 @@
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="TextBlock_KD" HorizontalAlignment="Left" Height="46" Margin="10,6,0,0" TextWrapping="Wrap" Text="K/D" VerticalAlignment="Top" Width="49"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light"/>
             <TextBlock x:Name="TextBlock_KpG" HorizontalAlignment="Left" Height="46" Margin="10,6,0,0" TextWrapping="Wrap" Text="Kills/Game" VerticalAlignment="Top" Width="60"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="1"/>
-            <TextBlock x:Name="TextBlock_KpM" HorizontalAlignment="Left" Height="46" Margin="10,6,0,0" TextWrapping="Wrap" Text="Kills/Min" VerticalAlignment="Top" Width="64"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="2"/>
-            <TextBlock x:Name="TextBlock_WR" Margin="10,6,0,0" TextWrapping="Wrap" Text="Win Rate"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="3" HorizontalAlignment="Left" Width="63" Height="46" VerticalAlignment="Top"/>
+            <TextBlock x:Name="TextBlock_KpM" HorizontalAlignment="Left" Height="46" Margin="10,6,0,0" TextWrapping="Wrap" Text="Score/Game" VerticalAlignment="Top" Width="64"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="3"/>
+            <TextBlock x:Name="TextBlock_WR" Margin="9,6,0,0" TextWrapping="Wrap" Text="Win Rate"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="2" HorizontalAlignment="Left" Width="63" Height="46" VerticalAlignment="Top"/>
             <TextBlock x:Name="TextBlock_K" HorizontalAlignment="Left" Height="47" Margin="10,6,0,0" TextWrapping="Wrap" Text="Kills" VerticalAlignment="Top" Width="50" Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Row="1"/>
             <TextBlock x:Name="TextBlock_Wins" HorizontalAlignment="Left" Height="47" Margin="10,6,0,0" TextWrapping="Wrap" Text="Wins" VerticalAlignment="Top" Width="67"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1"/>
             <TextBlock x:Name="TextBlock_Matches" HorizontalAlignment="Left" Height="47" Margin="10,6,0,0" TextWrapping="Wrap" Text="Matches" VerticalAlignment="Top" Width="64"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="2" Grid.Row="1"/>
             <TextBlock x:Name="text_kd" HorizontalAlignment="Left" Height="48" Margin="10,29,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="63"  Foreground="#FF89BEFF" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.RowSpan="2"/>
             <TextBlock x:Name="text_kg" HorizontalAlignment="Left" Height="48" Margin="10,29,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="53"  Foreground="#FF89BEFF" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="1" Grid.RowSpan="2"/>
-            <TextBlock x:Name="text_km" HorizontalAlignment="Left" Height="48" Margin="10,29,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="54"  Foreground="#FF89BEFF" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="2" Grid.RowSpan="2"/>
-            <TextBlock x:Name="text_wr" HorizontalAlignment="Left" Height="48" Margin="10,29,0,0" TextWrapping="Wrap" Text="0%" VerticalAlignment="Top" Width="53"  Foreground="#FF89BEFF" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="3" Grid.RowSpan="2"/>
+            <TextBlock x:Name="text_km" HorizontalAlignment="Left" Height="48" Margin="10,29,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="54"  Foreground="#FF89BEFF" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="3" Grid.RowSpan="2"/>
+            <TextBlock x:Name="text_wr" HorizontalAlignment="Left" Height="48" Margin="10,29,0,0" TextWrapping="Wrap" Text="0%" VerticalAlignment="Top" Width="53"  Foreground="#FF89BEFF" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="2" Grid.RowSpan="2"/>
             <TextBlock x:Name="text_k" HorizontalAlignment="Left" Height="54" Margin="10,29,0,-20" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="53"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Row="1"/>
             <TextBlock x:Name="text_w" HorizontalAlignment="Left" Height="54" Margin="10,29,0,-20" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="53"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="1" Grid.Row="1"/>
             <TextBlock x:Name="text_m" HorizontalAlignment="Left" Height="54" Margin="10,29,0,-20" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="54"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="2" Grid.Row="1"/>
-            <TextBlock x:Name="TextBlock_Score" HorizontalAlignment="Left" Height="47" Margin="10,6,-1,0" TextWrapping="Wrap" Text="Score/Game" VerticalAlignment="Top" Width="64"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="3" Grid.Row="1"/>
+            <TextBlock x:Name="TextBlock_Score" HorizontalAlignment="Left" Height="47" Margin="10,6,-1,0" TextWrapping="Wrap" Text="Score" VerticalAlignment="Top" Width="64"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" Grid.Column="3" Grid.Row="1"/>
             <TextBlock x:Name="text_s" HorizontalAlignment="Left" Height="54" Margin="10,29,0,-20" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="54"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18" Grid.Column="3" Grid.Row="1"/>
         </Grid>
         <Button x:Name="button_type" Content="Squad" HorizontalAlignment="Right" Margin="0,122,176,0" VerticalAlignment="Top" Width="40" Height="19" BorderBrush="{x:Null}" Background="Black" Foreground="#FFD8D8D8" FontSize="10" Padding="1,0,1,4" Click="button_type_Click" Uid="0"/>
         <TextBlock x:Name="textblock_time" HorizontalAlignment="Left" Margin="21,0,0,9" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="226" Foreground="#FF515151" FontFamily="Segoe UI Light" Height="18"/>
-        <TextBlock x:Name="textblock_name" HorizontalAlignment="Left" Height="44" Margin="322,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="160"  Foreground="#FFACACAC" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="24"/>
+        <TextBlock x:Name="textblock_name" HorizontalAlignment="Left" Height="44" Margin="365,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179"  Foreground="#FFACACAC" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="24"/>
         <Button x:Name="button_ex" Content="+" HorizontalAlignment="Left" Margin="416,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" FontSize="10" Padding="1,0,1,4" Uid="Braindeadautist" Click="button_ex_Click"/>
-        <TextBlock x:Name="trn_rating_text" HorizontalAlignment="Right" Margin="0,267,45,0" TextWrapping="Wrap" Text="TRN Rating: 0" VerticalAlignment="Top" Width="114" Foreground="#FF979797" FontFamily="Segoe UI Light" Height="18" ToolTip="Fortnite Tracker's own calculated rank"/>
+        <TextBlock x:Name="trn_rating_text" HorizontalAlignment="Right" Margin="0,267,45,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="52" Foreground="#FF979797" FontFamily="Segoe UI Semibold" Height="18" ToolTip="Fortnite Tracker's own calculated rank"/>
         <Button x:Name="button_type_2" Content="Duo" HorizontalAlignment="Right" Margin="0,122,218,0" VerticalAlignment="Top" Width="40" Height="19" BorderBrush="{x:Null}" Background="Black" Foreground="#FFD8D8D8" FontSize="10" Padding="1,0,1,4" Click="button_type_Click" Uid="1"/>
         <Button x:Name="button_type_1" Content="Solo" HorizontalAlignment="Right" Margin="0,122,260,0" VerticalAlignment="Top" Width="40" Height="19" BorderBrush="{x:Null}" Background="Black" Foreground="#FFD8D8D8" FontSize="10" Padding="1,0,1,4" Click="button_type_Click" Uid="2"/>
         <Rectangle x:Name="rectangle1" Fill="#FF4C94EE" HorizontalAlignment="Right" Margin="0,0,177,12" Width="26" Stroke="White" MouseDown="rectangle1_MouseDown" Height="13" VerticalAlignment="Bottom"/>
@@ -126,5 +128,27 @@
             </Rectangle.RenderTransform>
         </Rectangle>
         <TextBlock x:Name="textbox_statss" HorizontalAlignment="Right" Margin="0,0,209,9" TextWrapping="Wrap" Text="This Season" Width="67" Foreground="#FF979797" FontFamily="Segoe UI Light" ToolTip="Fortnite Tracker's own calculated rank" FontSize="11" Height="18" VerticalAlignment="Bottom" TextAlignment="Right"/>
+        <TextBlock x:Name="trn_rating_text_Copy" HorizontalAlignment="Right" Margin="0,267,97,0" TextWrapping="Wrap" Text="TRN Rating:" VerticalAlignment="Top" Width="62" Foreground="#FF979797" FontFamily="Segoe UI Light" Height="18" ToolTip="Fortnite Tracker's own calculated rank"/>
+        <Button x:Name="button_compare" Content="COMPARE" HorizontalAlignment="Left" Margin="273,72,0,0" VerticalAlignment="Top" Width="68" Height="39" BorderBrush="{x:Null}" Background="#FF0F0F0F" Foreground="White" FontSize="11" Click="button_compare_Click"/>
+        <Rectangle x:Name="obj_x1" Fill="#FF050505" HorizontalAlignment="Left" Height="2" Margin="345,91,0,0" VerticalAlignment="Top" Width="14" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="45"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Rectangle x:Name="obj_x2" Fill="#FF050505" HorizontalAlignment="Left" Height="2" Margin="345,91,0,0" VerticalAlignment="Top" Width="14" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="135"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
     </Grid>
 </Window>

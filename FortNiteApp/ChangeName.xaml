@@ -9,7 +9,7 @@
     <Grid>
         <TextBox x:Name="inputName" HorizontalAlignment="Left" Height="39" Margin="21,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="239" BorderBrush="{x:Null}" Background="White" Foreground="#FF727272" Padding="15,9,0,0" GotFocus="inputName_GotFocus" KeyDown="inputName_KeyDown" SelectionBrush="#FF363636" Tag="" Text="Enter Name"/>
         <Rectangle Fill="#B2303030" Height="32" VerticalAlignment="Top" IsHitTestVisible="False"/>
-        <TextBlock HorizontalAlignment="Left" Margin="21,9,0,0" TextWrapping="Wrap" Text="Change Name" VerticalAlignment="Top" Width="106" IsHitTestVisible="False"/>
+        <TextBlock x:Name="header" HorizontalAlignment="Left" Margin="21,9,0,0" TextWrapping="Wrap" Text="Change Name" VerticalAlignment="Top" Width="106" IsHitTestVisible="False"/>
         <Rectangle x:Name="ButtonClose" Fill="#FFC7C7C7" HorizontalAlignment="Left" Height="18" Margin="271,9,0,0" VerticalAlignment="Top" Width="18" MouseDown="ButtonClose_MouseDown" MouseEnter="ButtonClose_MouseEnter" MouseLeave="ButtonClose_MouseLeave"/>
         <TextBlock HorizontalAlignment="Left" Margin="21,92,0,0" TextWrapping="Wrap" Text="Press Enter to Change" VerticalAlignment="Top" Width="123" IsHitTestVisible="False" FontSize="10" Foreground="White"/>
 
