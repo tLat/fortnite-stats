@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -30,16 +29,17 @@ namespace FortNiteApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        
         public bool boost;
         public bool newStats = true;
         public bool comparingMode = false;
         public bool cleared = false;
+        public bool compareButtonSelect = false;
 
         // Strings
         #region strings
 
         public string playerData;
+        public string playerData_compare;
         public const string kd = "K/d";
         //public const string disVal = "\"value\":\"";  //obsolete
         public string substr;
@@ -48,9 +48,10 @@ namespace FortNiteApp
         public string statsType = "Squad";
         //public string pIndex = "\"p9\""; // obsolete
         public string pIndex = "curr_p9";
-        
+
         public string name;
         public string nameData;
+        public string nameData_compare;
 
         public string compareName;
         #endregion
@@ -67,7 +68,7 @@ namespace FortNiteApp
         public int modeint = 0;
 
 
-        public double sq_score, cm_score;
+        public int sq_score, cm_score;
         public int sq_rating, cm_rating;
         public int trn_rating, cm_trn_rating;
         public double ratingadd;
@@ -91,8 +92,15 @@ namespace FortNiteApp
 
         //int total_rate;
         int count = 0;
+        public double[] nums = new double[12];
+        public int[] ints = new int[8];
 
-        #endregion 
+        public List<StatReport> reportWindow = new List<StatReport>();
+        public bool windowFound = false;
+
+
+
+        #endregion
 
         public System.Timers.Timer timer = new System.Timers.Timer();
         public System.Timers.Timer timerAni = new System.Timers.Timer();
@@ -198,21 +206,24 @@ namespace FortNiteApp
 
         private void TimerTick(Object source, System.Timers.ElapsedEventArgs e)
         {
-            timercount++;
-            if (timercount > 300)
+            if (!comparingMode)
             {
-                this.Dispatcher.Invoke(() => { FindName(); textblock_time.Text = ""; });
-                timercount = 0;
+                timercount++;
+                if (timercount > 300)
+                {
+                    this.Dispatcher.Invoke(() => { FindName(); textblock_time.Text = ""; });
+                    timercount = 0;
+                }
+                if (timercount > 29)
+                    this.Dispatcher.Invoke(() => { textblock_time.Text = "Auto Refresh in " + (300 - timercount) + " Seconds"; });
             }
-            if (timercount > 29)
-                this.Dispatcher.Invoke(() => { textblock_time.Text = "Auto Refresh in " + (300 - timercount) + " Seconds"; });
         }
 
 
         public void ZeroOut()
         {
-            sq_rating = sq_wins = sq_top3 = sq_top5 = sq_top6 = sq_top10 = sq_top12 = sq_top25 = sq_matches = sq_kills = 0;
-            sq_KPMin = sq_KPG = sq_score = sq_wr = sq_kd = sq_time = 0.0;
+            sq_score = sq_rating = sq_wins = sq_top3 = sq_top5 = sq_top6 = sq_top10 = sq_top12 = sq_top25 = sq_matches = sq_kills = 0;
+            sq_KPMin = sq_KPG = sq_wr = sq_kd = sq_time = 0.0;
             CalcRating();
             SetValues();
             GlowControl(sq_rating);
@@ -246,15 +257,30 @@ namespace FortNiteApp
         //    }
         //
         //}
-        
 
-        public void getValues()
+        public void SetValues()
+        {
+            text_w.Text = sq_wins.ToString();
+            text_kd.Text = sq_kd.ToString();
+            text_wr.Text = sq_wr.ToString() + "%";
+            text_m.Text = sq_matches.ToString();
+            text_k.Text = sq_kills.ToString();
+            text_km.Text = sq_KPMin.ToString();
+            text_kg.Text = sq_KPG.ToString();
+            text_s.Text = sq_score.ToString();
+            textblock_name.Text = name;
+            if (comparingMode)
+                textblock_name.Text = name + " to";
+            trn_rating_text.Text = trn_rating.ToString();
+        }
+
+        public void GetValues()
         {
             try
             {
-                // Parse json (requires .dll)
+                // Parse json (requires Newtonsoft.Json.dll)
                 var obj = JObject.Parse(playerData);
-                
+
                 trn_rating = (int)obj[pIndex][0]["value"];
                 sq_score = (int)obj[pIndex][1]["value"];
                 sq_wins = (int)obj[pIndex][2]["value"];
@@ -269,12 +295,14 @@ namespace FortNiteApp
                 sq_matches = (int)obj[pIndex][11]["value"];
                 sq_kills = (int)obj[pIndex][12]["value"];
                 sq_KPG = (double)obj[pIndex][13]["value"];
-                sq_time = (double)obj[pIndex][14]["value"];
-                sq_KPMin = (double)obj[pIndex][15]["value"];
+                //sq_time = (double)obj[pIndex][14]["value"];
+                sq_KPMin = (double)obj[pIndex][14]["value"];
 
 
                 if (comparingMode)
                 {
+                    obj = JObject.Parse(playerData_compare);
+
                     cm_trn_rating = (int)obj[pIndex][0]["value"];
                     cm_score = (int)obj[pIndex][1]["value"];
                     cm_wins = (int)obj[pIndex][2]["value"];
@@ -289,8 +317,42 @@ namespace FortNiteApp
                     cm_matches = (int)obj[pIndex][11]["value"];
                     cm_kills = (int)obj[pIndex][12]["value"];
                     cm_KPG = (double)obj[pIndex][13]["value"];
-                    cm_time = (double)obj[pIndex][14]["value"];
-                    cm_KPMin = (double)obj[pIndex][15]["value"];
+                    //cm_time = (double)obj[pIndex][14]["value"];
+                    cm_KPMin = (double)obj[pIndex][14]["value"];
+                    /*
+                    0   1   2
+                    3   4   5
+                    6   7   8
+                    9  10  11
+                    */
+                    nums[0] = sq_kd;
+                    nums[2] = cm_kd;
+
+                    nums[3] = sq_KPG;
+                    nums[5] = cm_KPG;
+
+                    nums[6] = sq_wr;
+                    nums[8] = cm_wr;
+
+                    nums[9] = sq_KPMin;
+                    nums[11] = cm_KPMin;
+
+
+                    ints[0] = sq_kills;
+                    ints[4] = cm_kills;
+
+                    ints[1] = sq_wins;
+                    ints[5] = cm_wins;
+
+                    ints[2] = sq_matches;
+                    ints[6] = cm_matches;
+
+                    ints[3] = sq_score;
+                    ints[7] = cm_score;
+
+                    CalcRating();
+                    CalcRating_compare();
+                    CreateStatWin();
                 }
 
 
@@ -333,50 +395,36 @@ namespace FortNiteApp
             }
         }
 
-        #region Glow Controls
-        public void ShadowControl()
+        public void CalcRating()
         {
-            if (sq_rating > 2000)
-            {
-                text_rating.Visibility = Visibility.Hidden;
-                text_rating_glow.Text = text_rating.Text;
-                text_rating_glow.Visibility = Visibility.Visible;
-            }
+            ratingadd = (sq_kd * 100) / 2;
+            ratingadd += (sq_KPG * 100) / 2;
+            ratingadd += (sq_KPMin * 1000) / 2 / 4 / 128;
+            if (modeint == 2)
+                ratingadd += (ratingadd * (sq_wr / 10) * 0.86);
             else
-            {
-                text_rating.Visibility = Visibility.Visible;
-                text_rating_glow.Visibility = Visibility.Hidden;
-            }
+                ratingadd = (ratingadd * (sq_wr / 10));
+
+
+            sq_rating = Convert.ToInt32(ratingadd);
+
+            //nope
+            //if (boost)
+            //{
+            //    if (inputName.Text == "puttzs")
+            //        sq_rating += 500;
+            //    if (inputName.Text == "honkin")
+            //        sq_rating += 280;
+            //}
+
+            //text_rating.Text = sq_rating.ToString();
+            if (sq_rating != 0 && sq_rating != total[0])
+                RatingAnimation();
+            else
+                text_rating.Text = sq_rating.ToString();
         }
 
-        public void ColorControl()
-        {
-            if (sq_rating < 1000)
-            {
-                text_rating.Foreground = new SolidColorBrush(Color.FromRgb(200, 200, 200));
-            }
-            else if (sq_rating < 1500)
-            {
-                text_rating.Foreground = new SolidColorBrush(Color.FromRgb(93, 255, 56));
-            }
-            else if (sq_rating < 2000)
-            {
-                text_rating.Foreground = new SolidColorBrush(Color.FromRgb(38, 198, 255));
-            }
-            else if (sq_rating < 2500)
-            {
-                text_rating.Foreground = new SolidColorBrush(Color.FromRgb(197, 35, 252));
-            }
-            else if (sq_rating < 3000)
-            {
-                text_rating.Foreground = new SolidColorBrush(Color.FromRgb(255, 182, 28));
-            }
-            else if (sq_rating < 3500)
-            {
-                text_rating.Foreground = new SolidColorBrush(Color.FromRgb(255, 231, 28));
-            }
 
-        }
 
         public void GlowControl(int sq_rating)
         {
@@ -499,55 +547,18 @@ namespace FortNiteApp
             }
         }
 
-        #endregion
-
-        public void SetValues()
+        public void CalcRating_compare()
         {
-            text_w.Text = sq_wins.ToString();
-            text_kd.Text = sq_kd.ToString();
-            text_wr.Text = sq_wr.ToString() + "%";
-            text_m.Text = sq_matches.ToString();
-            text_k.Text = sq_kills.ToString();
-            text_km.Text = sq_KPMin.ToString();
-            text_kg.Text = sq_KPG.ToString();
-            text_s.Text = sq_score.ToString();
-            textblock_name.Text = name;
-            trn_rating_text.Text = trn_rating.ToString();
+                ratingadd = (cm_kd* 100) / 2;
+                ratingadd += (cm_KPG* 100) / 2;
+                ratingadd += (cm_KPMin* 1000) / 2 / 4 / 128;
+                if (modeint == 2)
+                    ratingadd += (ratingadd* (cm_wr / 10) * 0.86);
+                else
+                    ratingadd = (ratingadd* (cm_wr / 10));
+
+                cm_rating = Convert.ToInt32(ratingadd);
         }
-
-        public void CalcRating()
-        {
-            ratingadd = (sq_kd * 100) / 2;
-            ratingadd += (sq_KPG * 100) / 2;
-            ratingadd += (sq_KPMin * 1000) / 2 / 4 / 128;
-            if (modeint == 2)
-                ratingadd += (ratingadd * (sq_wr / 10) * 0.86);
-            else
-                ratingadd = (ratingadd * (sq_wr / 10));
-
-
-            sq_rating = Convert.ToInt32(ratingadd);
-
-            if (boost)
-            {
-                if (inputName.Text == "puttzs")
-                    sq_rating += 500;
-                if (inputName.Text == "honkin")
-                    sq_rating += 280;
-            }
-
-
-
-            //text_rating.Text = sq_rating.ToString();
-            if (sq_rating != 0 && sq_rating != total[0])
-                RatingAnimation();
-            else
-                text_rating.Text = sq_rating.ToString();
-
-
-        }
-
-
 
         public void RatingAnimation()
         {
@@ -557,14 +568,13 @@ namespace FortNiteApp
             timerAni.Start();
         }
 
-
-
         public void TimerAniTick(Object source, System.Timers.ElapsedEventArgs e)
         {
             if (count < 50)
             {
                 total[0] += inc[0];
-                this.Dispatcher.Invoke(() => {
+                this.Dispatcher.Invoke(() =>
+                {
                     text_rating.Text = total[0].ToString();
                     GlowControl(total[0]);
                 });
@@ -580,8 +590,6 @@ namespace FortNiteApp
 
         }
 
-        
-
         public void FindName()
         {
             Thread getThread = new Thread(() =>
@@ -595,23 +603,55 @@ namespace FortNiteApp
                     this.Dispatcher.Invoke(() => { textBlock1.Text = "Retrieving Stats.."; });
                     dlString = client.DownloadString(uri);
                     this.Dispatcher.Invoke(() => { GetMode(); });
-                    
+
                 }
                 catch
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        textBlock1.Text = "No Connection";
+                        textBlock1.Text = "No Connection or User Doesn't Exist";
                         ZeroOut();
                     });
                     return;
                 }
-                
+
             });
             getThread.Start();
 
             //GetMode();
         }
+
+        public void FindNameCompare()
+        {
+            Thread getThread = new Thread(() =>
+            {
+                string uri = "";
+                WebClient client = new WebClient();
+                //client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(GetMode);
+                this.Dispatcher.Invoke(() => { uri = "https://fortnitetracker.com/profile/pc/" + compareName; });
+                try
+                {
+                    this.Dispatcher.Invoke(() => { textBlock1.Text = "Getting Compare Stats.."; });
+                    dlString_compare = client.DownloadString(uri);
+                    this.Dispatcher.Invoke(() => { GetMode_compare(); });
+
+                }
+                catch
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        textBlock1.Text = "No Connection or User Doesn't Exist";
+                        //ZeroOut();
+                    });
+                    return;
+                }
+
+            });
+            getThread.Start();
+
+            //GetMode();
+        }
+
         public void GetMode()
         {
             if (dlString.IndexOf("Issue while trying to get your stats") != -1)
@@ -641,7 +681,7 @@ namespace FortNiteApp
                     textBlock1.Text = name + " " + statsType + " Stats";
                     //indx = dlString.IndexOf("var playerData = ");
                     //indx = dlString.IndexOf(pIndex, indx) + 6;
-                    getValues();
+                    GetValues();
                     SetValues();
                     CalcRating();
                     timer.Enabled = true;
@@ -655,6 +695,57 @@ namespace FortNiteApp
             }
         }
 
+        private void button_compare_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            comparingMode = true;
+            compareButtonSelect = true;
+            button_compare.Content = "CLICK NAME";
+        }
+
+        public void GetMode_compare()
+        {
+            if (dlString_compare.IndexOf("Issue while trying to get your stats") != -1)
+            {
+                // if this string is found, the user doesn't exist or no stats for user
+                textBlock1.Text = statsType + " Stats Not Found for " + inputName.Text;
+                //ZeroOut();
+            }
+            else
+            {
+                try
+                {
+                    // what a fucking statement
+                    // getting json from web source, starting at "playerData", to ";</script>"
+                    playerData_compare = dlString_compare.Substring((dlString_compare.IndexOf("var playerData = ") + 17),
+                        (dlString_compare.IndexOf(";</script>", dlString_compare.IndexOf("var playerData = "))) - (dlString_compare.IndexOf("var playerData = ") + 17));
+
+                    nameData_compare = dlString_compare.Substring((dlString_compare.IndexOf("var accountInfo = ") + 18),
+                        (dlString_compare.IndexOf(";</script>", dlString_compare.IndexOf("var accountInfo = "))) - (dlString_compare.IndexOf("var accountInfo = ") + 18));
+
+                    // new way to get name
+                    var obj = JObject.Parse(nameData);
+                    name = (string)obj["Nickname"];
+                    Console.WriteLine("name from nameJson: " + name);
+                    //
+
+                    textBlock1.Text = name + " " + statsType + " Stats";
+                    //indx = dlString_compare.IndexOf("var playerData = ");
+                    //indx = dlString_compare.IndexOf(pIndex, indx) + 6;
+                    CalcRating();
+                    GetValues();
+                    //SetValues();
+                    
+                    //timer.Enabled = true;
+
+                }
+                catch
+                {
+                    textBlock1.Text = "Error Getting Stats, Not Available";
+                    //ZeroOut();
+                }
+            }
+        }
+
         private void button_type_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
@@ -664,7 +755,17 @@ namespace FortNiteApp
             //if (modeint > 2)
             //    modeint = 0;
             Refresh();
-            
+
+        }
+
+        private void Rectangle_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            foreach(StatReport s in reportWindow)
+                s.Focus();
+        }
+
+        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
         }
 
         public void Refresh()
@@ -706,6 +807,70 @@ namespace FortNiteApp
             }
         }
 
+        private void CompareSetUp()
+        {
+            comparingMode = true;
+            obj_x1.Visibility = obj_x2.Visibility = obj_back.Visibility = Visibility.Visible;
+            Console.WriteLine("input " + compareName);
+
+            textblock_name.FontSize = 18;
+            textblock_name.Text = name + " to";
+            textblock_name_compare.Text = compareName;
+            FindNameCompare();
+        }
+
+        public void CreateStatWin()
+        {
+            String newUid = name + compareName;
+
+            foreach (var s in reportWindow)
+            {
+                if(s.Uid == newUid)
+                {
+                    s.Hide();
+                    s.player1_data = playerData;
+                    s.player2_data = playerData_compare;
+                    s.rank1 = sq_rating;
+                    s.rank2 = cm_rating;
+                    s.Show();
+                    windowFound = true;
+                    break;
+                }
+            }
+            if (!windowFound)
+            {
+                StatReport reportWin = new StatReport();
+                reportWin.Uid = newUid;
+                reportWin.parent = this;
+                reportWin.player1_data = playerData;
+                reportWin.player2_data = playerData_compare;
+                reportWin.rank1 = sq_rating;
+                reportWin.rank2 = cm_rating;
+                reportWin.name1.Text = name;
+                reportWin.name2.Text = compareName;
+                reportWin.gamemode = modeint;
+                reportWin.season = Convert.ToInt32(newStats);
+                if (reportWindow.Count == 0)
+                {
+                    reportWin.Top = this.Top - 100;
+                    reportWin.Left = this.Left + 250;
+                }
+                else
+                {
+                    reportWin.Top = reportWindow[reportWindow.Count - 1].Top + 50;
+                    reportWin.Left = reportWindow[reportWindow.Count - 1].Left + 100;
+                }
+                
+                reportWin.Show();
+                reportWindow.Add(reportWin);
+            }
+            windowFound = false;
+        }
+
+        private void FortNiteApp_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
 
         #region UI Stuff
 
@@ -713,37 +878,17 @@ namespace FortNiteApp
         public void ButtonHandler(object sender, EventArgs e)
         {
             Button button = sender as Button;
-            switch (button.Name)
+            if (!compareButtonSelect)
             {
-                case "button_tyty":
-                    inputName.Text = button.Uid;
-                    FindName();
-                    break;
-
-                case "button_jojo":
-                    inputName.Text = button.Uid;
-                    FindName();
-                    break;
-
-                case "button_bk":
-                    inputName.Text = button.Uid;
-                    FindName();
-                    break;
-
-                case "button_ster":
-                    inputName.Text = button.Uid;
-                    FindName();
-                    break;
-
-                case "button_mike":
-                    inputName.Text = button.Uid;
-                    FindName();
-                    break;
-
-                case "button_ex":
-                    inputName.Text = button.Uid;
-                    FindName();
-                    break;
+                inputName.Text = button.Uid;
+                FindName();
+            }
+            else
+            {
+                compareName = button.Uid;
+                compareButtonSelect = false;
+                button_compare.Content = "COMPARE";
+                CompareSetUp();
             }
         }
 
@@ -773,9 +918,7 @@ namespace FortNiteApp
             if (changeWin.DialogResult.HasValue && changeWin.DialogResult.Value)
             {
                 compareName = changeWin.inputName.Text;
-                comparingMode = true;
-                obj_x1.Visibility = obj_x2.Visibility = obj_back.Visibility = Visibility.Visible;
-                Console.WriteLine("input " + compareName);
+                CompareSetUp();
             }
         }
 
@@ -798,6 +941,9 @@ namespace FortNiteApp
         {
             obj_x1.Visibility = obj_x2.Visibility = obj_back.Visibility = Visibility.Hidden;
             obj_back.Fill = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
+            textblock_name.FontSize = 24;
+            textblock_name.Text = name;
+            textblock_name_compare.Text = "";
             comparingMode = false;
         }
 
@@ -805,7 +951,8 @@ namespace FortNiteApp
         {
             timercount = 0;
             textblock_time.Text = "";
-            FindName();
+            if(!compareButtonSelect)
+                FindName();
         }
 
         private void inputName_GotFocus(object sender, RoutedEventArgs e)
@@ -847,7 +994,7 @@ namespace FortNiteApp
 
         private void ButtonClose_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.Close();
+            Application.Current.Shutdown();
         }
 
         private void FortNiteApp_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -927,6 +1074,19 @@ namespace FortNiteApp
                 button_ex.Click -= button_ex_Click;
                 button_ex.Click += ButtonHandler;
             }
+        }
+
+        private void ButtonMini_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        private void ButtonMini_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ButtonMini.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        }
+        private void ButtonMini_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ButtonMini.Fill = new SolidColorBrush(Color.FromRgb(30, 30, 30));
         }
 
         #endregion

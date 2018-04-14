@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FortNiteApp"
         mc:Ignorable="d"
-        Title="FortNite Stats" Height="316" Width="570" Background="#B2191919" Foreground="White" Loaded="MainWin_Loaded" WindowStyle="None" AllowsTransparency="True" MouseDown="FortNiteApp_MouseDown" ResizeMode="CanResizeWithGrip" SizeChanged="FortNiteApp_SizeChanged" MinHeight="300" MinWidth="530" BorderBrush="#FF191919" BorderThickness="1">
+        Title="FortNite Stats" Height="316" Width="570" Background="#B2191919" Foreground="White" Loaded="MainWin_Loaded" WindowStyle="None" AllowsTransparency="True" MouseDown="FortNiteApp_MouseDown" ResizeMode="CanResizeWithGrip" SizeChanged="FortNiteApp_SizeChanged" MinHeight="300" MinWidth="530" BorderBrush="#FF191919" BorderThickness="1" Closing="FortNiteApp_Closing">
     <Window.Resources>
         <Storyboard x:Key="Light">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Poof">
@@ -63,14 +63,14 @@
         <TextBlock x:Name="textblock_rating" HorizontalAlignment="Right" Height="34" Margin="0,145,53,0" TextWrapping="Wrap" Text="Squad Rating" VerticalAlignment="Top" Width="106"  Foreground="White" Background="{x:Null}" FontSize="18" FontFamily="Segoe UI Light"/>
         <TextBlock x:Name="text_rating_glow" HorizontalAlignment="Left" Height="74" Margin="341,172,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="141"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="48" Visibility="Hidden"/>
         <TextBlock x:Name="text_rating" Height="74" Margin="0,172,18,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"  Foreground="White" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="48" HorizontalAlignment="Right" Width="141"/>
-        <Button x:Name="button_tyty" Content="honkin" HorizontalAlignment="Left" Margin="21,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="honkin"/>
-        <Button x:Name="button_jojo" Content="green" HorizontalAlignment="Left" Margin="100,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="puttzs"/>
-        <Button x:Name="button_bk" Content="Venuto" HorizontalAlignment="Left" Margin="179,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="venuto" RenderTransformOrigin="0.428,0.53"/>
-        <Button x:Name="button_ster" Content="Defurb" HorizontalAlignment="Left" Margin="258,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="defurb"/>
-        <Button x:Name="button_mike" Content="Pingu" HorizontalAlignment="Left" Margin="337,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="Autist Penguin"/>
+        <Button x:Name="button_tyty" Content="honkin" HorizontalAlignment="Left" Margin="21,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="honkin" ToolTip="Right Click To Change Name Preset"/>
+        <Button x:Name="button_jojo" Content="puttzs" HorizontalAlignment="Left" Margin="100,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="puttzs" ToolTip="Right Click To Change Name Preset"/>
+        <Button x:Name="button_bk" Content="Venuto" HorizontalAlignment="Left" Margin="179,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="venuto" RenderTransformOrigin="0.428,0.53" ToolTip="Right Click To Change Name Preset"/>
+        <Button x:Name="button_ster" Content="Defurb" HorizontalAlignment="Left" Margin="258,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="defurb" ToolTip="Right Click To Change Name Preset"/>
+        <Button x:Name="button_mike" Content="Pingu" HorizontalAlignment="Left" Margin="337,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" Click="button_Click" FontSize="10" Padding="1,0,1,4" Uid="Autist Penguin" ToolTip="Right Click To Change Name Preset"/>
         <Rectangle Fill="#FF0F0F0F" Height="32" VerticalAlignment="Top"/>
         <Rectangle Fill="#FF35353A" Margin="0,32,0,0" HorizontalAlignment="Left" Width="4" IsHitTestVisible="False"/>
-        <Rectangle Fill="#FF35353A" Height="32" VerticalAlignment="Top" IsHitTestVisible="False"/>
+        <Rectangle Fill="#FF35353A" Height="32" VerticalAlignment="Top" IsHitTestVisible="True" MouseRightButtonDown="Rectangle_MouseRightButtonDown" MouseDown="Rectangle_MouseDown"/>
         <Rectangle Fill="#FF35353A" Margin="0,32,0,4" HorizontalAlignment="Right" Width="4" IsHitTestVisible="False"/>
         <Rectangle Fill="#FF35353A" Height="4" VerticalAlignment="Bottom" IsHitTestVisible="False"/>
         <TextBlock HorizontalAlignment="Left" Margin="21,9,0,0" TextWrapping="Wrap" Text="FortNite BR Stats" VerticalAlignment="Top" Width="106" IsHitTestVisible="False"/>
@@ -111,7 +111,7 @@
         </Grid>
         <Button x:Name="button_type" Content="Squad" HorizontalAlignment="Right" Margin="0,122,176,0" VerticalAlignment="Top" Width="40" Height="19" BorderBrush="{x:Null}" Background="Black" Foreground="#FFD8D8D8" FontSize="10" Padding="1,0,1,4" Click="button_type_Click" Uid="0"/>
         <TextBlock x:Name="textblock_time" HorizontalAlignment="Left" Margin="21,0,0,9" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="226" Foreground="#FF515151" FontFamily="Segoe UI Light" Height="18"/>
-        <TextBlock x:Name="textblock_name" HorizontalAlignment="Left" Height="44" Margin="365,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179"  Foreground="#FFACACAC" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="24"/>
+        <TextBlock x:Name="textblock_name" HorizontalAlignment="Left" Height="44" Margin="365,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"  Foreground="#FFACACAC" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="24"/>
         <Button x:Name="button_ex" Content="+" HorizontalAlignment="Left" Margin="416,45,0,0" VerticalAlignment="Top" Width="74" Height="22" BorderBrush="{x:Null}" Background="#FF151515" Foreground="#FFAAAAAA" FontSize="10" Padding="1,0,1,4" Uid="Braindeadautist" Click="button_ex_Click"/>
         <TextBlock x:Name="trn_rating_text" HorizontalAlignment="Right" Margin="0,267,45,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="52" Foreground="#FF979797" FontFamily="Segoe UI Semibold" Height="18" ToolTip="Fortnite Tracker's own calculated rank"/>
         <Button x:Name="button_type_2" Content="Duo" HorizontalAlignment="Right" Margin="0,122,218,0" VerticalAlignment="Top" Width="40" Height="19" BorderBrush="{x:Null}" Background="Black" Foreground="#FFD8D8D8" FontSize="10" Padding="1,0,1,4" Click="button_type_Click" Uid="1"/>
@@ -129,7 +129,7 @@
         </Rectangle>
         <TextBlock x:Name="textbox_statss" HorizontalAlignment="Right" Margin="0,0,209,9" TextWrapping="Wrap" Text="This Season" Width="67" Foreground="#FF979797" FontFamily="Segoe UI Light" ToolTip="Fortnite Tracker's own calculated rank" FontSize="11" Height="18" VerticalAlignment="Bottom" TextAlignment="Right"/>
         <TextBlock x:Name="trn_rating_text_Copy" HorizontalAlignment="Right" Margin="0,267,97,0" TextWrapping="Wrap" Text="TRN Rating:" VerticalAlignment="Top" Width="62" Foreground="#FF979797" FontFamily="Segoe UI Light" Height="18" ToolTip="Fortnite Tracker's own calculated rank"/>
-        <Button x:Name="button_compare" Content="COMPARE" HorizontalAlignment="Left" Margin="273,72,0,0" VerticalAlignment="Top" Width="68" Height="39" BorderBrush="{x:Null}" Background="#FF0F0F0F" Foreground="White" FontSize="11" Click="button_compare_Click"/>
+        <Button x:Name="button_compare" Content="COMPARE" HorizontalAlignment="Left" Margin="273,72,0,0" VerticalAlignment="Top" Width="68" Height="39" BorderBrush="{x:Null}" Background="#FF0F0F0F" Foreground="White" FontSize="11" Click="button_compare_Click" MouseRightButtonDown="button_compare_MouseRightButtonDown" ToolTip="Right Click To Select A Name Preset"/>
         <Rectangle x:Name="obj_x1" Fill="#FF050505" HorizontalAlignment="Left" Height="2" Margin="345,91,0,0" VerticalAlignment="Top" Width="14" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
             <Rectangle.RenderTransform>
                 <TransformGroup>
@@ -150,5 +150,7 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
+        <TextBlock x:Name="textblock_name_compare" HorizontalAlignment="Left" Height="28" Margin="365,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172"  Foreground="#FFACACAC" Background="{x:Null}" FontFamily="Segoe UI Light" FontSize="18"/>
+        <Rectangle x:Name="ButtonMini" Height="20" Margin="0,7,35,0" VerticalAlignment="Top" MouseDown="ButtonMini_MouseDown" MouseEnter="ButtonMini_MouseEnter" MouseLeave="ButtonMini_MouseLeave" Fill="#FF1E1E1E" ToolTip="Minimize" HorizontalAlignment="Right" Width="20"/>
     </Grid>
 </Window>
