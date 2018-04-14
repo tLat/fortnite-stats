@@ -8,15 +8,15 @@ The app pulls information from the Fortnite Tracker's website and reads user dat
 
 #### Display
 
-![Image](https://i.imgur.com/9LqwYkW.gifv)
-https://i.imgur.com/9LqwYkW.gifv
+![gif](https://media.giphy.com/media/1pnZrxwebwUNHlotRS/giphy.gif)
 
 #### Name Presets
 
-![Image](https://i.imgur.com/gdJQqzD.gifv)
-https://i.imgur.com/gdJQqzD.gifv
+![gif](https://media.giphy.com/media/ulLheB80FnfrnpJ67G/giphy.gif)
 
 #### Overall and Seasonal Stats
 
-![Image](https://i.imgur.com/9HMrxzi.gifv)
-https://i.imgur.com/9HMrxzi.gifv
+![gif](https://media.giphy.com/media/xU1rYITTeg9h1t9qEC/giphy.gif)
+
+
+
