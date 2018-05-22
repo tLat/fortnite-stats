@@ -439,13 +439,13 @@
             </Rectangle.Effect>
         </Rectangle>
         <Rectangle x:Name="rectrank2" HorizontalAlignment="Left" Height="14" Margin="319,71,0,0" VerticalAlignment="Top" Width="55"/>
-        <TextBlock x:Name="name1" Margin="27,41,243,0" TextWrapping="Wrap" Text="honkin" VerticalAlignment="Top" Height="38" FontSize="20" Foreground="White" FontFamily="Segoe UI Light"/>
-        <TextBlock x:Name="name2" Margin="0,41,26,0" TextWrapping="Wrap" Text="honkin" VerticalAlignment="Top" Height="38" FontSize="20" Foreground="White" FontFamily="Segoe UI Light" HorizontalAlignment="Right" Width="130" TextAlignment="Right"/>
+        <TextBlock x:Name="name1" Margin="27,41,206,0" TextWrapping="Wrap" Text="honkin" VerticalAlignment="Top" Height="38" FontSize="20" Foreground="White" FontFamily="Segoe UI Light"/>
+        <TextBlock x:Name="name2" Margin="0,41,26,0" TextWrapping="Wrap" Text="honkin" VerticalAlignment="Top" Height="38" FontSize="20" Foreground="White" FontFamily="Segoe UI Light" HorizontalAlignment="Right" Width="161" TextAlignment="Right"/>
         <TextBlock Margin="179,54,0,0" TextWrapping="Wrap" Text="vs" VerticalAlignment="Top" Height="38" FontSize="18" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Center" HorizontalAlignment="Left" Width="49"/>
-        <TextBlock HorizontalAlignment="Left" Margin="21,9,0,0" TextWrapping="Wrap" Text="Stat Compare" VerticalAlignment="Top" Width="106" IsHitTestVisible="False" Foreground="#26FFFFFF"/>
+        <TextBlock HorizontalAlignment="Left" Margin="21,9,0,0" TextWrapping="Wrap" Text="   " VerticalAlignment="Top" Width="106" IsHitTestVisible="False" Foreground="#26FFFFFF"/>
         <Rectangle x:Name="ButtonClose" Fill="#FF1E1E1E" HorizontalAlignment="Right" Height="20" Margin="0,7,10,0" VerticalAlignment="Top" Width="20" MouseDown="ButtonClose_MouseDown" MouseEnter="ButtonClose_MouseEnter" MouseLeave="ButtonClose_MouseLeave"/>
-        <TextBlock x:Name="rating1" HorizontalAlignment="Left" Margin="43,68,0,0" TextWrapping="Wrap" Text="9999" VerticalAlignment="Top" Height="17" Width="34" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Right" FontSize="14" Padding="0,0,0,2"/>
-        <TextBlock x:Name="rating2" HorizontalAlignment="Left" Margin="339,68,0,0" TextWrapping="Wrap" Text="465" VerticalAlignment="Top" Height="19" Width="30" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Right" FontSize="14"/>
+        <TextBlock x:Name="rating1" HorizontalAlignment="Left" Margin="27,70,0,0" TextWrapping="Wrap" Text="9999" VerticalAlignment="Top" Height="17" Width="50" Foreground="White" TextAlignment="Right" Padding="0,0,0,2" FontFamily="Segoe UI Semibold"/>
+        <TextBlock x:Name="rating2" HorizontalAlignment="Left" Margin="316,70,0,0" TextWrapping="Wrap" Text="465" VerticalAlignment="Top" Height="19" Width="53" Foreground="White" TextAlignment="Right" FontFamily="Segoe UI Semibold"/>
         <Rectangle Fill="#59000000" Height="101" Margin="27,476,0,0" VerticalAlignment="Top" Uid="0" HorizontalAlignment="Left" Width="347"/>
         <TextBlock x:Name="star1" HorizontalAlignment="Left" Margin="30,68,0,0" TextWrapping="Wrap" Text="★" VerticalAlignment="Top" Height="19" Width="12" Foreground="White" FontFamily="Segoe UI Light" FontSize="14"/>
         <TextBlock x:Name="star2" HorizontalAlignment="Left" Margin="322,68,0,0" TextWrapping="Wrap" Text="★" VerticalAlignment="Top" Height="19" Width="12" Foreground="White" FontFamily="Segoe UI Light" FontSize="14"/>
@@ -759,15 +759,18 @@
                 </TextBlock.RenderTransform>
             </TextBlock>
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="21" Margin="27,116,0,0" VerticalAlignment="Top" Width="127">
+        <Grid HorizontalAlignment="Left" Height="21" Margin="27,116,0,0" VerticalAlignment="Top" Width="130">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Rectangle x:Name="select1" Fill="#66000000" Height="21" VerticalAlignment="Top" Uid="1" IsMouseDirectlyOverChanged="LeftSelects" MouseDown="LeftClick"/>
-            <Rectangle x:Name="select2" Fill="#66000000" Height="21" VerticalAlignment="Top" Uid="0" Grid.Column="1" d:IsHidden="True" IsMouseDirectlyOverChanged="LeftSelects" MouseDown="LeftClick"/>
-            <TextBlock TextWrapping="Wrap" Text="Season 3" VerticalAlignment="Top" Height="21" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Center" Padding="0,0,0,2" Margin="0,1,0,-1" IsHitTestVisible="False"/>
-            <TextBlock TextWrapping="Wrap" Text="All" VerticalAlignment="Top" Height="21" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Center" Padding="0,0,0,2" Margin="1,1,0,-1" Grid.Column="1" IsHitTestVisible="False"/>
+            <Rectangle x:Name="select2" Fill="#66000000" Height="21" VerticalAlignment="Top" Uid="0" Grid.Column="1" IsMouseDirectlyOverChanged="LeftSelects" MouseDown="LeftClick"/>
+            <Rectangle x:Name="select3_1" Fill="#66000000" Height="21" VerticalAlignment="Top" Uid="-1" Grid.Column="2" IsMouseDirectlyOverChanged="LeftSelects" MouseDown="LeftClick"/>
+            <TextBlock TextWrapping="Wrap" Text="S4" VerticalAlignment="Top" Height="21" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Center" Padding="0,0,0,2" Margin="0,1,0,-1" IsHitTestVisible="False"/>
+            <TextBlock TextWrapping="Wrap" Text="All" VerticalAlignment="Top" Height="21" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Center" Padding="0,0,0,2" Margin="0,1,0,-1" Grid.Column="2" IsHitTestVisible="False"/>
+            <TextBlock TextWrapping="Wrap" Text="S3" VerticalAlignment="Top" Height="21" Foreground="White" FontFamily="Segoe UI Light" TextAlignment="Center" Padding="0,0,0,2" Grid.Column="1" IsHitTestVisible="False" Margin="0,1,0,-1"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="21" Margin="230,116,0,0" VerticalAlignment="Top" Width="144">
             <Grid.ColumnDefinitions>

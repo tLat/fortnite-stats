@@ -52,6 +52,7 @@ namespace FortNiteApp
         public string name;
         public string nameData;
         public string nameData_compare;
+        //public string recentStats, recentStatsCompare;
 
         public string compareName;
         #endregion
@@ -206,8 +207,8 @@ namespace FortNiteApp
 
         private void TimerTick(Object source, System.Timers.ElapsedEventArgs e)
         {
-            if (!comparingMode)
-            {
+            //if (!comparingMode)
+            //{
                 timercount++;
                 if (timercount > 300)
                 {
@@ -216,7 +217,7 @@ namespace FortNiteApp
                 }
                 if (timercount > 29)
                     this.Dispatcher.Invoke(() => { textblock_time.Text = "Auto Refresh in " + (300 - timercount) + " Seconds"; });
-            }
+            //}
         }
 
 
@@ -664,17 +665,14 @@ namespace FortNiteApp
             {
                 try
                 {
-                    // what a fucking statement
-                    // getting json from web source, starting at "playerData", to ";</script>"
-                    playerData = dlString.Substring((dlString.IndexOf("var playerData = ") + 17),
-                        (dlString.IndexOf(";</script>", dlString.IndexOf("var playerData = "))) - (dlString.IndexOf("var playerData = ") + 17));
-
-                    nameData = dlString.Substring((dlString.IndexOf("var accountInfo = ") + 18),
-                        (dlString.IndexOf(";</script>", dlString.IndexOf("var accountInfo = "))) - (dlString.IndexOf("var accountInfo = ") + 18));
+                    
+                    playerData = GrabJSONfromString(dlString, "var imp_playerData = ");
+                    nameData = GrabJSONfromString(dlString, "var imp_accountInfo = ");
+                    //recentStats = GrabJSONfromString(dlString, "var imp_rollingStats = ");
 
                     // new way to get name
                     var obj = JObject.Parse(nameData);
-                    name = (string)obj["Nickname"];
+                    name = (string)obj["nickname"];
                     Console.WriteLine("name from nameJson: " + name);
                     //
 
@@ -695,13 +693,6 @@ namespace FortNiteApp
             }
         }
 
-        private void button_compare_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            comparingMode = true;
-            compareButtonSelect = true;
-            button_compare.Content = "CLICK NAME";
-        }
-
         public void GetMode_compare()
         {
             if (dlString_compare.IndexOf("Issue while trying to get your stats") != -1)
@@ -716,15 +707,13 @@ namespace FortNiteApp
                 {
                     // what a fucking statement
                     // getting json from web source, starting at "playerData", to ";</script>"
-                    playerData_compare = dlString_compare.Substring((dlString_compare.IndexOf("var playerData = ") + 17),
-                        (dlString_compare.IndexOf(";</script>", dlString_compare.IndexOf("var playerData = "))) - (dlString_compare.IndexOf("var playerData = ") + 17));
-
-                    nameData_compare = dlString_compare.Substring((dlString_compare.IndexOf("var accountInfo = ") + 18),
-                        (dlString_compare.IndexOf(";</script>", dlString_compare.IndexOf("var accountInfo = "))) - (dlString_compare.IndexOf("var accountInfo = ") + 18));
+                    playerData_compare = GrabJSONfromString(dlString_compare, "var imp_playerData = ");
+                    nameData_compare = GrabJSONfromString(dlString_compare, "var imp_accountInfo = ");
+                    //recentStatsCompare = GrabJSONfromString(dlString_compare, "var imp_rollingStats = ");
 
                     // new way to get name
                     var obj = JObject.Parse(nameData);
-                    name = (string)obj["Nickname"];
+                    name = (string)obj["nickname"];
                     Console.WriteLine("name from nameJson: " + name);
                     //
 
@@ -746,6 +735,17 @@ namespace FortNiteApp
             }
         }
 
+        public string GrabJSONfromString(string s, string datatype)
+        {
+            // getting json from web source, starting at "playerData", to ";</script>"
+            string output;
+
+            output = s.Substring((s.IndexOf(datatype) + datatype.Length),
+                        (s.IndexOf(";</script>", s.IndexOf(datatype))) - (s.IndexOf(datatype) + datatype.Length));
+
+            return output;
+        }
+
         private void button_type_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
@@ -756,16 +756,6 @@ namespace FortNiteApp
             //    modeint = 0;
             Refresh();
 
-        }
-
-        private void Rectangle_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            foreach(StatReport s in reportWindow)
-                s.Focus();
-        }
-
-        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
-        {
         }
 
         public void Refresh()
@@ -827,13 +817,18 @@ namespace FortNiteApp
             {
                 if(s.Uid == newUid)
                 {
-                    s.Hide();
+                    //s.Hide();
                     s.player1_data = playerData;
                     s.player2_data = playerData_compare;
+                    //s.player1recent = recentStats;
+                    //s.player2recent = recentStatsCompare;
                     s.rank1 = sq_rating;
                     s.rank2 = cm_rating;
-                    s.Show();
+                    s.gamemode = modeint;
+                    s.season = Convert.ToInt32(newStats);
+                    s.RefreshAll();
                     windowFound = true;
+                    Console.WriteLine("Stat window updated. ");
                     break;
                 }
             }
@@ -844,6 +839,8 @@ namespace FortNiteApp
                 reportWin.parent = this;
                 reportWin.player1_data = playerData;
                 reportWin.player2_data = playerData_compare;
+                //reportWin.player1recent = recentStats;
+                //reportWin.player2recent = recentStatsCompare;
                 reportWin.rank1 = sq_rating;
                 reportWin.rank2 = cm_rating;
                 reportWin.name1.Text = name;
@@ -863,6 +860,8 @@ namespace FortNiteApp
                 
                 reportWin.Show();
                 reportWindow.Add(reportWin);
+                Console.Write("New window created. ");
+                Console.WriteLine(reportWindow.Count);
             }
             windowFound = false;
         }
@@ -875,6 +874,24 @@ namespace FortNiteApp
         #region UI Stuff
 
         // Some name error handling here as well
+
+        private void button_compare_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            comparingMode = true;
+            compareButtonSelect = true;
+            button_compare.Content = "CLICK NAME";
+        }
+
+        private void Rectangle_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            foreach (StatReport s in reportWindow)
+                s.Focus();
+        }
+
+        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
         public void ButtonHandler(object sender, EventArgs e)
         {
             Button button = sender as Button;
@@ -1002,7 +1019,7 @@ namespace FortNiteApp
             if (this.Height > 370 && this.Width > 690)
             {
                 TextBlock_KD.FontSize = TextBlock_KpG.FontSize = TextBlock_KpM.FontSize = TextBlock_WR.FontSize =
-                TextBlock_K.FontSize = TextBlock_Wins.FontSize = TextBlock_Matches.FontSize = TextBlock_Score.FontSize = 20;
+                TextBlock_K.FontSize = TextBlock_Wins.FontSize = TextBlock_Matches.FontSize = TextBlock_Score.FontSize = 16;
 
                 TextBlock_KD.Width = TextBlock_KpG.Width = TextBlock_KpM.Width = TextBlock_WR.Width =
                 TextBlock_K.Width = TextBlock_Wins.Width = TextBlock_Matches.Width = TextBlock_Score.Width = 150;

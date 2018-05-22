@@ -51,7 +51,8 @@ namespace FortNiteApp
         public string pIndex;
         public string player1_data;
         public string player2_data;
-        public JObject parser;
+        public string player1recent, player2recent;
+        public JObject parser1, parser2;
 
 
         public int rank1, rank2;
@@ -65,7 +66,7 @@ namespace FortNiteApp
             RefreshAll();
         }
 
-        private void RefreshAll()
+        public void RefreshAll()
         {
             EnableBlur();
 
@@ -77,8 +78,8 @@ namespace FortNiteApp
             SetStatInfo();
             //GlowControl(name1, rank1, 14);
             //GlowControl(name2, rank2, 14);
-            ColorControl(rectrank1, rank1);
-            ColorControl(rectrank2, rank2);
+            ColorControl(rating1, star1, rectrank1, rank1);
+            ColorControl(rating2, star2, rectrank2, rank2);
 
             sb.Begin();
         }
@@ -113,7 +114,10 @@ namespace FortNiteApp
             pIndex = "";
             switch (season)
             {
+                case -1:
+                    break;
                 case 0:
+                    pIndex = "prior_";
                     break;
                 case 1:
                     pIndex = "curr_";
@@ -133,27 +137,51 @@ namespace FortNiteApp
             }
 
             //player one stats
-            parser = JObject.Parse(player1_data);
+            if (season != -1)
+            {
+                parser1 = JObject.Parse(player1_data);
+                parser2 = JObject.Parse(player2_data);
+            }
+            else
+            {
+                //parser1 = JObject.Parse(player1recent);
+                //parser2 = JObject.Parse(player2recent);
+            }  
 
-            nums[0] = (double)parser[pIndex][9]["value"];     //kd
-            nums[3] = (double)parser[pIndex][13]["value"];    //kpg
-            nums[6] = (double)parser[pIndex][10]["value"];    //winrate
-            nums[9] = (double)parser[pIndex][14]["value"];    //score/min
-            ints[0] = (int)parser[pIndex][12]["value"];       //kills
-            ints[1] = (int)parser[pIndex][2]["value"];        //wins
-            ints[2] = (int)parser[pIndex][11]["value"];       //macthes
-            ints[3] = (int)parser[pIndex][1]["value"];        //score
+            try
+            {
+                nums[0] = (double)parser1[pIndex][9]["value"];     //kd
+                nums[3] = (double)parser1[pIndex][13]["value"];    //kpg
+                nums[6] = (double)parser1[pIndex][10]["value"];    //winrate
+                nums[9] = (double)parser1[pIndex][14]["value"];    //score/min
+                ints[0] = (int)parser1[pIndex][12]["value"];       //kills
+                ints[1] = (int)parser1[pIndex][2]["value"];        //wins
+                ints[2] = (int)parser1[pIndex][11]["value"];       //macthes
+                ints[3] = (int)parser1[pIndex][1]["value"];        //score
+            }
+            catch (NullReferenceException)
+            {
+                nums[0] = nums[3] = nums[6] = nums[9] = ints[0] = ints[1] = ints[2] = ints[3] = 0;
+            }
 
-            parser = JObject.Parse(player2_data);
+            
 
-            nums[2] = (double)parser[pIndex][9]["value"];
-            nums[5] = (double)parser[pIndex][13]["value"];
-            nums[8] = (double)parser[pIndex][10]["value"];
-            nums[11] = (double)parser[pIndex][14]["value"];
-            ints[4] = (int)parser[pIndex][12]["value"];
-            ints[5] = (int)parser[pIndex][2]["value"];
-            ints[6] = (int)parser[pIndex][11]["value"];
-            ints[7] = (int)parser[pIndex][1]["value"];
+            try
+            {
+                nums[2] = (double)parser2[pIndex][9]["value"];
+                nums[5] = (double)parser2[pIndex][13]["value"];
+                nums[8] = (double)parser2[pIndex][10]["value"];
+                nums[11] = (double)parser2[pIndex][14]["value"];
+                ints[4] = (int)parser2[pIndex][12]["value"];
+                ints[5] = (int)parser2[pIndex][2]["value"];
+                ints[6] = (int)parser2[pIndex][11]["value"];
+                ints[7] = (int)parser2[pIndex][1]["value"];
+            }
+            catch (Exception e)
+            {
+                if (e is NullReferenceException || e is ArgumentOutOfRangeException)
+                    nums[2] = nums[5] = nums[8] = nums[11] = ints[4] = ints[5] = ints[6] = ints[7] = 0;
+            }
         }
 
         private void SetValues()
@@ -183,7 +211,7 @@ namespace FortNiteApp
             int i = 0;
             foreach (TextBlock t in BottomGrid.Children)
             {
-                if(t.Uid == "")
+                if (t.Uid == "")
                 {
                     t.Text = ints[i].ToString();
                     i++;
@@ -194,118 +222,87 @@ namespace FortNiteApp
 
         private void SetColors()
         {
-
-            if (nums[0] < nums[2])
-            {
-                text_kd_two.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_kd_one.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-            else
-            {
-                text_kd_one.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_kd_diff.Text = "+" + text_kd_diff.Text;
-                text_kd_diff.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_kd_two.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-
-            if (nums[3] < nums[5])
-            {
-                text_kg_two.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_kg_one.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-            else
-            {
-                text_kg_one.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_kg_diff.Text = "+" + text_kg_diff.Text;
-                text_kg_diff.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_kg_two.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-
-            if (nums[6] < nums[8])
-            {
-                text_wr_two.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_wr_one.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-            else
-            {
-                text_wr_one.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_wr_diff.Text = "+" + text_wr_diff.Text;
-                text_wr_diff.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_wr_two.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-
-            if (nums[9] < nums[11])
-            {
-                text_sg_two.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_sg_one.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-            else
-            {
-                text_sg_one.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_sg_diff.Text = "+" + text_sg_diff.Text;
-                text_sg_diff.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                text_sg_two.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
+            CompareAndColorDiff(text_kd_one, text_kd_two, nums[0], nums[2], text_kd_diff);
+            CompareAndColorDiff(text_kg_one, text_kg_two, nums[3], nums[5], text_kg_diff);
+            CompareAndColorDiff(text_wr_one, text_wr_two, nums[6], nums[8], text_wr_diff);
+            CompareAndColorDiff(text_sg_one, text_sg_two, nums[9], nums[11], text_sg_diff);
         }
 
         private void SetColors_Bottom()
         {
-            if (ints[0] < ints[4])
-            {
-                display_kills_Copy.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                display_kills.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
-            else
-            {
-                display_kills.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-                display_kills_Copy.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-            }
+            CompareAndColor(display_kills, display_kills_Copy, ints[0], ints[4]);
+            CompareAndColor(display_wins, display_wins_Copy, ints[1], ints[5]);
+            CompareAndColor(display_matches, display_matches_Copy, ints[2], ints[6]);
+            CompareAndColor(display_score, display_score_Copy, ints[3], ints[7]);
+        }
 
-            if (ints[1] < ints[5])
+        private void CompareAndColorDiff(TextBlock a, TextBlock b, double valueA, double valueB, TextBlock c)
+        {
+            // higher/lower value colors
+            String high = "#FF89BEFF";  //blue
+            String low = "#FFFFFFFF";   //white
+            if (valueA > valueB)
             {
-                display_wins.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-                display_wins_Copy.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
+                a.Foreground = (Brush)converter.ConvertFromString(high);
+                b.Foreground = (Brush)converter.ConvertFromString(low);
+                c.Foreground = (Brush)converter.ConvertFromString(high);
+                c.Text = "+" + c.Text;
+            }
+            else if (valueA < valueB)
+            {
+                a.Foreground = (Brush)converter.ConvertFromString(low);
+                b.Foreground = (Brush)converter.ConvertFromString(high);
+                c.Foreground = (Brush)converter.ConvertFromString(low);
             }
             else
             {
-                display_wins_Copy.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-                display_wins.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
+                a.Foreground = (Brush)converter.ConvertFromString(low);
+                b.Foreground = (Brush)converter.ConvertFromString(low);
+                c.Foreground = (Brush)converter.ConvertFromString(low);
             }
+        }
+        private void CompareAndColor(TextBlock a, TextBlock b, int valueA, int valueB)
+        {
+            // higher/lower value colors
+            String high = "#FF89BEFF";  //blue
+            String low = "#FFFFFFFF";   //white
 
-            if (ints[2] < ints[6])
+            if (valueA > valueB)
             {
-                display_matches.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-                display_matches_Copy.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
+                a.Foreground = (Brush)converter.ConvertFromString(high);
+                b.Foreground = (Brush)converter.ConvertFromString(low);
+            }
+            else if (valueA < valueB)
+            {
+                a.Foreground = (Brush)converter.ConvertFromString(low);
+                b.Foreground = (Brush)converter.ConvertFromString(high);
             }
             else
             {
-                display_matches_Copy.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-                display_matches.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-            }
-
-            if (ints[3] < ints[7])
-            {
-                display_score.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-                display_score_Copy.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
-            }
-            else
-            {
-                display_score_Copy.Foreground = (Brush)converter.ConvertFromString("#FFFFFFFF");
-                display_score.Foreground = (Brush)converter.ConvertFromString("#FF89BEFF");
+                a.Foreground = (Brush)converter.ConvertFromString(low);
+                b.Foreground = (Brush)converter.ConvertFromString(low);
             }
         }
 
         private void SetStatInfo()
         {
-            if(season == 1)
+            if (season == 1)
             {
                 select1.Fill = new SolidColorBrush(Color.FromArgb(102, 0, 0, 0));
                 select2.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                select3_1.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             }
-            if(season == 0)
+            if (season == 0)
             {
                 select1.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                 select2.Fill = new SolidColorBrush(Color.FromArgb(102, 0, 0, 0));
+                select3_1.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+            }
+            if (season == -1)
+            {
+                select1.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                select2.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                select3_1.Fill = new SolidColorBrush(Color.FromArgb(102, 0, 0, 0));
             }
 
             if (gamemode == 0)
@@ -431,10 +428,14 @@ namespace FortNiteApp
             }
         }
 
-        public void ColorControl(Rectangle rect, int inputRating)
+        public void ColorControl(TextBlock a, TextBlock star, Rectangle rect, int inputRating)
         {
+            a.Foreground = (Brush)converter.ConvertFromString("#FFFFFF");
+            star.Foreground = (Brush)converter.ConvertFromString("#FFFFFF");
+
             if (inputRating < 1000)
             {
+                rect.Fill = (Brush)converter.ConvertFromString("#00000000");
             }
             else if (inputRating < 1500)
             {
@@ -454,7 +455,9 @@ namespace FortNiteApp
             }
             else if (inputRating >= 3000)
             {
-                rect.Fill = (Brush)converter.ConvertFromString("#EEB800");
+                rect.Fill = (Brush)converter.ConvertFromString("#eae381");
+                a.Foreground = (Brush)converter.ConvertFromString("#000000");
+                star.Foreground = (Brush)converter.ConvertFromString("#000000");
             }
         }
 
@@ -539,7 +542,7 @@ namespace FortNiteApp
 
         private void StatWin_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            foreach(StatReport s in parent.reportWindow)
+            foreach (StatReport s in parent.reportWindow)
             {
                 if (s.Uid == this.Uid)
                 {
@@ -567,10 +570,10 @@ namespace FortNiteApp
             if (r.IsMouseOver)
                 r.Fill = new SolidColorBrush(Color.FromArgb(102, 150, 150, 150));
             else
-                if(season.ToString() == r.Uid)
-                    r.Fill = new SolidColorBrush(Color.FromArgb(102, 0, 0, 0));
-                else
-                    r.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                if (season.ToString() == r.Uid)
+                r.Fill = new SolidColorBrush(Color.FromArgb(102, 0, 0, 0));
+            else
+                r.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
 
         }
 
@@ -582,9 +585,9 @@ namespace FortNiteApp
                 r.Fill = new SolidColorBrush(Color.FromArgb(102, 150, 150, 150));
             else
                 if (gamemode.ToString() == r.Uid)
-                    r.Fill = new SolidColorBrush(Color.FromArgb(102, 0, 0, 0));
-                else
-                    r.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                r.Fill = new SolidColorBrush(Color.FromArgb(102, 0, 0, 0));
+            else
+                r.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
         }
 
         private void LeftClick(object sender, MouseButtonEventArgs e)
@@ -603,7 +606,7 @@ namespace FortNiteApp
 
         private void StatWin_Loaded(object sender, RoutedEventArgs e)
         {
-             
+
         }
     }
 }
