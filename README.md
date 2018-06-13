@@ -4,6 +4,11 @@ A minimalistic application to display popular stats of Fortnite users. You can s
 
 ## Basic Functionality
 
+Short demo video of basic functionality 
+https://streamable.com/g9mu9
+
+<br><br>
+
 The application pulls Fortnite user data and displays the most common stat categories.
 
 #### Display
@@ -14,9 +19,6 @@ The application pulls Fortnite user data and displays the most common stat categ
 
 ![gif](https://media.giphy.com/media/ulLheB80FnfrnpJ67G/giphy.gif)
 
-#### Overall and Seasonal Stats
 
-![gif](https://media.giphy.com/media/xU1rYITTeg9h1t9qEC/giphy.gif)
-
-
-
+#### Unrealted Video of app made in After Effects
+https://streamable.com/cxps2
